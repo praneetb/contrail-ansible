@@ -7,12 +7,12 @@
 - name: setup ansible master
   hosts: mesos-master
   roles:
-    - role: mesos/mesos-master
-    - role: mesos/docker
+    - role: mesos-master
+    - role: docker
 
 - name: setup ansible slave
   hosts: mesos-slave
   roles:
-    - role: mesos/mesos-slave
+    - role: mesos-slave
       mesos_master_ip: "{{ hostvars[groups['mesos-master'][0]]['ansible_default_ipv4']['address']}}"
-    - role: mesos/docker
+    - role: docker
