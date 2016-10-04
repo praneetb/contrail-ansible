@@ -1,0 +1,7 @@
+---
+- name: Add virt7 docker repo
+  yum_repository:
+    name: virt7-docker-common-release
+    description: Virt7 common docker release
+    baseurl: http://cbs.centos.org/repos/virt7-docker-common-release/x86_64/os/
+    gpgcheck: no

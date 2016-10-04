@@ -9,6 +9,7 @@
   roles:
     - role: mesos-master
     - role: docker
+#    - role: contrail-controller
 
 - name: setup ansible slave
   hosts: mesos-slave
@@ -16,3 +17,4 @@
     - role: mesos-slave
       mesos_master_ip: "{{ hostvars[groups['mesos-master'][0]]['ansible_default_ipv4']['address']}}"
     - role: docker
+#    - role: contrail-agent

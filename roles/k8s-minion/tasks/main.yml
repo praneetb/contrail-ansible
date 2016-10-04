@@ -1,0 +1,25 @@
+---
+# tasks file for k8s-minion
+- include: "{{ ansible_distribution }}.yml"
+
+- name: Install kubernetes etcd
+  package: pkg={{ item }} enablerepo=virt7-docker-common-release state=latest
+  with_items:
+    - kubernetes
+    - etcd
+
+- name: Add kubernetes config
+  template: src=k8s-config.j2 dest=/etc/kubernetes/config
+
+- name: Disable firewall
+  command: systemctl disable firewalld
+
+- name: Stop firewall
+  command: systemctl stop firewalld
+
+- name: Configure kubelet and notify services
+  template: src=kubelet-config.j2 dest=/etc/kubernetes/kubelet
+  notify:
+    - Restart kube-proxy
+    - Restart kubelet
+    - Restart docker

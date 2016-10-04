@@ -1,0 +1,29 @@
+---
+# tasks file for k8s-master
+- include: "{{ ansible_distribution }}.yml"
+
+- name: Install kubernetes etcd
+  package: pkg={{ item }} enablerepo=virt7-docker-common-release state=latest
+  with_items:
+    - kubernetes
+    - etcd
+
+- name: Add kubernetes config
+  template: src=k8s-config.j2 dest=/etc/kubernetes/config
+
+- name: Disable firewall
+  command: systemctl disable firewalld
+
+- name: Stop firewall
+  command: systemctl stop firewalld
+
+- name: Configure etcd conf
+  template: src=etcd-config.j2 dest=/etc/etcd/etcd.conf
+
+- name: Configure apiserver and notify services
+  template: src=k8s-apiserver.j2 dest=/etc/kubernetes/apiserver
+  notify:
+    - Restart etcd
+    - Restart kube-apiserver
+    - Restart kube-controller-manager
+    - Restart kube-scheduler

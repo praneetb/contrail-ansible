@@ -1,0 +1,13 @@
+---
+# tasks file for contrail-controller
+- name: Load controller image
+  shell: docker load < /home/rrugge/contrail-controller-3.1.1.0-29.tar.gz
+
+- name: Load analytics image
+  shell: docker load < /home/rrugge/contrail-analytics-3.1.1.0-29.tar.gz
+
+- name: Run controller docker
+  command: docker run --privileged=true  --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt contrail-controller:3.1.1.0-29
+
+- name: Run analytics docker
+  command: docker run --privileged=true  --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt contrail-analytics:3.1.1.0-29
