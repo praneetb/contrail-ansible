@@ -1,13 +1,13 @@
 ---
 # tasks file for contrail-agent
-- name: Create contrail directory for kernel module
-  command: mkdir /lib/modules/3.10.0-327.36.1.el7.x86_64/kernel/net/contrail
+- name: Pull vrouter insert docker image
+  shell: "{{ docker_auth }} docker pull {{ docker_repo }}/centos-vrouter:3.1.1.0-29"
 
-- name: Copy vrouter to kernel module directory
-  command: cp /home/rrugge/vrouter.ko /lib/modules/3.10.0-327.36.1.el7.x86_64/kernel/net/contrail
+- name: Run vrouter insert docker
+  command: docker run -v /lib/modules:/lib/modules --privileged=true --cap-add=AUDIT_WRITE -dt {{ docker_repo }}/centos-vrouter:3.1.1.0-29
 
-- name: Load agent image
-  shell: docker load < /home/rrugge/contrail-agent-3.1.1.0-29.tar.gz
+- name: Pull agent docker image
+  command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-agent:3.1.1.0-29"
 
-- name: Run controller docker
-  command: docker run -v  /usr/src:/usr/src  -v /lib/modules:/lib/modules --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -e CONFIG_IP=10.138.0.2 -e COMPILE_VROUTER_MODULE=no -e VROUTER_PHYSICAL_INTERFACE=eth0 -dt 10.84.34.155:5000/contrail-agent:3.1.1.0-29
+- name: Run agent docker
+  command: docker run -v  /usr/src:/usr/src  -v /lib/modules:/lib/modules --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -e CONFIG_IP={{ k8s_master_ip }} -e COMPILE_VROUTER_MODULE=no -e VROUTER_PHYSICAL_INTERFACE=eth0 -dt {{ docker_repo }}/contrail-agent:3.1.1.0-29

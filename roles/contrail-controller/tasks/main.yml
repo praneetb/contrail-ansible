@@ -3,8 +3,14 @@
 - name: Start docker engine
   command: service docker start
 
+- name: Pull controller docker image
+  command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-controller:3.1.1.0-29"
+
 - name: Run controller docker
-  command: gcloud docker run --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt us.gcr.io/rrugge-project/contrail-controller:3.1.1.0-29
+  command: docker run --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt {{ docker_repo }}/contrail-controller:3.1.1.0-29
+
+- name: Pull analytics docker image
+  command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-analytics:3.1.1.0-29"
 
 - name: Run analytics docker
-  command: gcloud docker run --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt us.gcr.io/rrugge-project/contrail-analytics:3.1.1.0-29
+  command: docker run --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt {{ docker_repo }}/contrail-analytics:3.1.1.0-29
