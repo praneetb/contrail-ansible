@@ -1,10 +1,15 @@
 ---
 # tasks file for contrail-agent
+- include: "{{ ansible_distribution }}.yml"
+
+- name: Start docker engine
+  service: name=docker state=restarted enabled=yes
+
 - name: Pull vrouter insert docker image
   shell: "{{ docker_auth }} docker pull {{ docker_repo }}/centos-vrouter:3.1.1.0-29"
 
 - name: Run vrouter insert docker
-  command: docker run -v /lib/modules:/lib/modules --privileged=true --cap-add=AUDIT_WRITE -dt {{ docker_repo }}/centos-vrouter:3.1.1.0-29
+  command: docker run -v /lib/modules:/lib/modules --privileged=true --cap-add=AUDIT_WRITE {{ docker_repo }}/centos-vrouter:3.1.1.0-29
 
 - name: Pull agent docker image
   command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-agent:3.1.1.0-29"

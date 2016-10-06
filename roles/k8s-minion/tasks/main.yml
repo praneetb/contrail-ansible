@@ -19,7 +19,12 @@
 
 - name: Configure kubelet and notify services
   template: src=kubelet-config.j2 dest=/etc/kubernetes/kubelet
-  notify:
-    - Restart kube-proxy
-    - Restart kubelet
-    - Restart docker
+
+- name: Restart kube-proxy
+  service: name=kube-proxy state=restarted enabled=yes
+
+- name: Restart kubelet
+  service: name=kubelet state=restarted enabled=yes
+
+- name: Restart docker
+  service: name=docker state=restarted enabled=yes

@@ -1,7 +1,7 @@
 ---
 # tasks file for contrail-controller
 - name: Start docker engine
-  command: service docker start
+  service: name=docker state=restarted enabled=yes
 
 - name: Pull controller docker image
   command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-controller:3.1.1.0-29"

@@ -22,8 +22,15 @@
 
 - name: Configure apiserver and notify services
   template: src=k8s-apiserver.j2 dest=/etc/kubernetes/apiserver
-  notify:
-    - Restart etcd
-    - Restart kube-apiserver
-    - Restart kube-controller-manager
-    - Restart kube-scheduler
+
+- name: Restart etcd
+  service: name=etcd state=restarted enabled=yes
+
+- name: Restart kube-apiserver
+  service: name=kube-apiserver state=restarted enabled=yes
+
+- name: Restart kube-controller-manager
+  service: name=kube-controller-manager state=restarted enabled=yes
+
+- name: Restart kube-scheduler
+  service: name=kube-scheduler state=restarted enabled=yes

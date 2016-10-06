@@ -9,7 +9,9 @@
   roles:
     - role: mesos-master
     - role: docker
-#    - role: contrail-controller
+    - role: contrail-controller
+      docker_auth: gcloud
+      docker_repo: us.gcr.io/rrugge-project
 
 - name: setup ansible slave
   hosts: mesos-slave
@@ -17,4 +19,7 @@
     - role: mesos-slave
       mesos_master_ip: "{{ hostvars[groups['mesos-master'][0]]['ansible_default_ipv4']['address']}}"
     - role: docker
-#    - role: contrail-agent
+    - role: contrail-agent
+      k8s_master_ip: "{{ hostvars[groups['k8s-master'][0]]['ansible_default_ipv4']['address']}}"
+      docker_auth: gcloud
+      docker_repo: us.gcr.io/rrugge-project
