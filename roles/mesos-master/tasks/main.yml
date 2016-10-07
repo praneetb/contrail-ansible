@@ -42,9 +42,15 @@
 
 - name: Update marathon to zookeeper connection config
   template: src=marathon-zk.j2 dest=/etc/marathon/conf/zk
-  tags: deploy
-  notify:
-    - Stop mesos-slave
-    - Restart zookeeper
-    - Restart mesos-master
-    - Restart marathon
+
+- name: Stop mesos-slave
+  service: name=mesos-slave state=stopped enabled=no
+
+- name: Restart zookeeper
+  service: name=zookeeper state=restarted enabled=yes
+
+- name: Restart mesos-master
+  service: name=mesos-master state=restarted enabled=yes
+
+- name: Restart marathon
+  service: name=marathon state=restarted enabled=yes
