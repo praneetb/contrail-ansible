@@ -2,5 +2,8 @@
 - name: Add mesos repo
   yum: name=http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm state=present
 
+- name: Install git
+  package: name=git state=latest
+
 - name: Install zookeeper
   package: name=mesosphere-zookeeper state=latest
