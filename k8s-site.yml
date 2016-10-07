@@ -6,20 +6,20 @@
 ---
 - name: setup k8s master
   hosts: k8s-master
+  vars_files:
+    - env.yml
   roles:
     - role: k8s-master
       k8s_master_hostname: "{{ hostvars[groups['k8s-master'][0]]['ansible_hostname']}}"
     - role: contrail-controller
-      docker_auth: gcloud
-      docker_repo: us.gcr.io/rrugge-project
 
 - name: setup k8s minion
   hosts: k8s-minion
+  vars_files:
+    - env.yml
   roles:
     - role: k8s-minion
       k8s_master_ip: "{{ hostvars[groups['k8s-master'][0]]['ansible_default_ipv4']['address']}}"
       k8s_master_hostname: "{{ hostvars[groups['k8s-master'][0]]['ansible_hostname']}}"
     - role: contrail-agent
       k8s_master_ip: "{{ hostvars[groups['k8s-master'][0]]['ansible_default_ipv4']['address']}}"
-      docker_auth: gcloud
-      docker_repo: us.gcr.io/rrugge-project

@@ -4,13 +4,13 @@
   service: name=docker state=restarted enabled=yes
 
 - name: Pull controller docker image
-  command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-controller:3.1.1.0-29"
+  command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-controller-{{ openstack_version }}:{{ contrail_version }}"
 
 - name: Run controller docker
-  command: docker run --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt {{ docker_repo }}/contrail-controller:3.1.1.0-29
+  command: docker run --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt {{ docker_repo }}/contrail-controller-{{ openstack_version }}:{{ contrail_version }}
 
 - name: Pull analytics docker image
-  command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-analytics:3.1.1.0-29"
+  command: "{{ docker_auth }} docker pull {{ docker_repo }}/contrail-analytics-{{ openstack_version }}:{{ contrail_version }}"
 
 - name: Run analytics docker
-  command: docker run --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt {{ docker_repo }}/contrail-analytics:3.1.1.0-29
+  command: docker run --privileged=true --cap-add=AUDIT_WRITE --pid=host --net=host -e CLOUD_ORCHESTRATOR=kubernetes -dt {{ docker_repo }}/contrail-analytics-{{ openstack_version }}:{{ contrail_version }}
