@@ -1,2 +1,18 @@
 ---
 cni_opencontrail_plugin_version: master
+
+mesos_cni_config_dir: /var/lib/mesos/cni/config
+mesos_cni_plugins_dir: /var/lib/mesos/cni/plugins
+
+cluster_subnet: 192.168.0.0/20
+public_subnet: 172.16.8.0/24
+private_subnet: 10.32.0.0/16
+service_subnet: 10.193.0.0/16
+
+contrail_service_subnet: "{{ service_subnet | default('10.64.0.0/16') }}"
+# External network
+contrail_public_subnet: "{{ public_subnet | default('172.18.0.0/20') }}"
+# Underlay network
+contrail_private_subnet: "{{ private_subnet | default('10.32.0.0/16') }}"
+
+

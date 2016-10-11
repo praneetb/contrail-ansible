@@ -6,8 +6,6 @@
 ---
 - name: setup ansible master
   hosts: mesos-master
-  vars_files:
-    - env.yml
   roles:
     - role: mesos-master
     - role: docker
@@ -15,8 +13,6 @@
 
 - name: setup ansible slave
   hosts: mesos-slave
-  vars_files:
-    - env.yml
   roles:
     - role: mesos-slave
       mesos_master_ip: "{{ hostvars[groups['mesos-master'][0]]['ansible_default_ipv4']['address']}}"

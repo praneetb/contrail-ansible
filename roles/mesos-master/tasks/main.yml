@@ -43,6 +43,9 @@
 - name: Update marathon to zookeeper connection config
   template: src=marathon-zk.j2 dest=/etc/marathon/conf/zk
 
+- name: Configure Marathon service port
+  template: src=http_port-conf.j2 dest=/etc/marathon/conf/http_port
+
 - name: Stop mesos-slave
   service: name=mesos-slave state=stopped enabled=no
 

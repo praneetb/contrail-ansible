@@ -9,6 +9,10 @@
   template: src=mesos-zk.j2 dest=/etc/mesos/zk
   tags: deploy
 
+- name: Mesos Slave config file
+  template: src=conf-mesos-slave.j2 dest=/etc/default/mesos-slave
+  tags: deploy
+
 - name: Update mesos-slave hostname
   template: src=mesos-slave-hostname.j2 dest=/etc/mesos-slave/hostname
   tags: deploy

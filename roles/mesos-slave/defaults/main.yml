@@ -21,7 +21,7 @@ mesos_ulimit: "-n 8192"
 mesos_work_dir: "/var/mesos"
 mesos_quorum: "1"
 zookeeper_client_port: "2181"
-zookeeper_hostnames: "{{ mesos_ip }}:{{ zookeeper_client_port }}"
+zookeeper_hostnames: "{{ mesos_master_ip }}:{{ zookeeper_client_port }}"
 mesos_zookeeper_masters: "zk://{{ zookeeper_hostnames }}/mesos"
 marathon_zookeeper_masters: "zk://{{ zookeeper_hostnames }}/marathon"
 mesos_owner: root

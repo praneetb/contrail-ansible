@@ -5,5 +5,8 @@
 - name: Install git
   package: name=git state=latest
 
+- name: Install net-tools
+  package: name=net-tools state=latest
+
 - name: Install zookeeper
   package: name=mesosphere-zookeeper state=latest

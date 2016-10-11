@@ -1,2 +1,3 @@
 ---
 # vars file for mesos-master
+marathon_http_port: 7070
