@@ -20,3 +20,4 @@
     - role: contrail-agent
       mesos_master_ip: "{{ hostvars[groups['mesos-master'][0]]['ansible_default_ipv4']['address']}}"
     - role: contrail-cni
+      mesos_master_ip: "{{ hostvars[groups['mesos-master'][0]]['ansible_default_ipv4']['address']}}"
